@@ -1,17 +1,22 @@
 import { useState } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addContact, getContacts} from "redux/contacts";
 
-import actions from "../../redux/contacts/actions";
 
 import s from "./Form.module.css";
 
-function Form({ onFormSubmit }) {
+function Form() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+  const dispatch = useDispatch();
+  const items = useSelector(getContacts);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    onFormSubmit(name, number);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (items.find((contact) => name === contact.name)) {
+      return alert(`${name} is already in the contacts`);
+    }
+    dispatch(addContact({ name, number }));
     setName("");
     setNumber("");
   };
@@ -45,8 +50,4 @@ function Form({ onFormSubmit }) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onFormSubmit: (name, number) => dispatch(actions.addItem({ name, number })),
-});
-
-export default connect(null, mapDispatchToProps)(Form);
+export default Form;

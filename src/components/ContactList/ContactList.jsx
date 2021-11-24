@@ -4,7 +4,7 @@ import { fetchContacts } from "redux/contacts";
 
 import ContactItem from "./ContactItem";
 
-function ContactList({ contacts, onDeleteContact }) {
+function ContactList({ contacts, loading }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -13,13 +13,10 @@ function ContactList({ contacts, onDeleteContact }) {
 
   return (
     <>
+      {loading && <span>Loading...</span>}
       <ul>
         {contacts.map((contact) => (
-          <ContactItem
-            key={contact.id}
-            contact={contact}
-            onDeleteContact={onDeleteContact}
-          />
+          <ContactItem key={contact.id} contact={contact} />
         ))}
       </ul>
     </>

@@ -1,14 +1,11 @@
 import { connect } from "react-redux";
 
-import { actions, getFilteredContacts } from "redux/contacts";
+import { actions, getFilteredContacts, isLoading } from "redux/contacts";
 import ContactList from "./ContactList";
 
 const mapStateToProps = (state) => ({
   contacts: getFilteredContacts(state),
+  loading: isLoading(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onDeleteContact: (id) => dispatch(actions.deleteItem(id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+export default connect(mapStateToProps)(ContactList);
